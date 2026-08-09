@@ -1,0 +1,45 @@
+#!/bin/sh
+
+DAEMON="/usr/bin/bullet-observer"
+PIDFILE="/var/run/bullet-observer.pid"
+
+case "$1" in
+
+    start)
+        echo "Starting AMIT Bullet Observer"
+        start-stop-daemon -S -b -m \
+            -p "$PIDFILE" \
+            -x "$DAEMON"
+        ;;
+
+    stop)
+        echo "Stopping AMIT Bullet Observer"
+        start-stop-daemon -K \
+            -p "$PIDFILE" \
+            -x "$DAEMON"
+
+        rm -f "$PIDFILE"
+        ;;
+
+    restart)
+        $0 stop
+        sleep 1
+        $0 start
+        ;;
+
+    status)
+        if [ -f "$PIDFILE" ]; then
+            echo "AMIT Bullet Observer is running"
+        else
+            echo "AMIT Bullet Observer is not running"
+        fi
+        ;;
+
+    *)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 1
+        ;;
+
+esac
+
+exit 0

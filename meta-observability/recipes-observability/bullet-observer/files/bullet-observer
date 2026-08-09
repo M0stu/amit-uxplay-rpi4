@@ -1,0 +1,39 @@
+#!/bin/sh
+
+LOGFILE="/var/log/bullet-observability.log"
+INTERVAL=30
+
+mkdir -p /var/log
+
+echo "========================================" >> "$LOGFILE"
+echo "AMIT Bullet Observer started" >> "$LOGFILE"
+echo "Start time: $(date)" >> "$LOGFILE"
+echo "========================================" >> "$LOGFILE"
+
+while true
+do
+    TIMESTAMP="$(date '+%Y-%m-%d %H:%M:%S')"
+
+    LOAD="$(cat /proc/loadavg 2>/dev/null | awk '{print $1, $2, $3}')"
+
+    MEMTOTAL="$(grep '^MemTotal:' /proc/meminfo 2>/dev/null | awk '{print $2}')"
+    MEMAVAILABLE="$(grep '^MemAvailable:' /proc/meminfo 2>/dev/null | awk '{print $2}')"
+
+    ROOTDISK="$(df -P / 2>/dev/null | awk 'NR==2 {print $5}')"
+
+    UPTIME="$(cut -d. -f1 /proc/uptime 2>/dev/null)"
+
+    {
+        echo "----------------------------------------"
+        echo "Timestamp: $TIMESTAMP"
+        echo "UptimeSeconds: $UPTIME"
+        echo "LoadAverage: $LOAD"
+        echo "MemoryTotalKB: $MEMTOTAL"
+        echo "MemoryAvailableKB: $MEMAVAILABLE"
+        echo "RootFilesystemUsage: $ROOTDISK"
+        echo "Network:"
+        cat /proc/net/dev 2>/dev/null
+    } >> "$LOGFILE"
+
+    sleep "$INTERVAL"
+done

@@ -1,0 +1,12 @@
+[Unit]
+Description=AMIT Bullet Observability Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/bullet-observer
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

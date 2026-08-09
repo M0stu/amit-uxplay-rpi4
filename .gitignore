@@ -1,0 +1,43 @@
+# Yocto builds
+build/
+build-*/
+tmp/
+tmp-*/
+cache/
+
+# Downloads and shared state
+downloads/
+sstate-cache/
+
+# Generated images
+*.wic
+*.wic.bmap
+*.wic.bz2
+*.wic.gz
+*.wic.xz
+*.ext3
+*.ext4
+*.rootfs.*
+*.manifest
+*.testdata.json
+
+# Logs
+*.log
+log.*
+temp/
+
+# BitBake generated dependency files
+pn-buildlist
+task-depends.dot
+recipe-depends.dot
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

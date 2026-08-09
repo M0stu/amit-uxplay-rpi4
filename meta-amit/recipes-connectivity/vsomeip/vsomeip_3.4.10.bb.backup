@@ -1,0 +1,36 @@
+SUMMARY = "COVESA vSomeIP middleware"
+DESCRIPTION = "Implementation of the SOME/IP protocol for inter-process and network communication."
+HOMEPAGE = "https://github.com/COVESA/vsomeip"
+
+LICENSE = "MPL-2.0 & BSD-3-Clause"
+
+LIC_FILES_CHKSUM = " \
+    file://LICENSE;md5=9741c346eef56131163e13b9db1241b3 \
+    file://${WORKDIR}/googletest/LICENSE;md5=cbbd27594afd089daa160d3a16dd515a \
+"
+
+SRC_URI = " \
+    git://github.com/COVESA/vsomeip.git;protocol=https;nobranch=1;name=vsomeip \
+    git://github.com/google/googletest.git;protocol=https;nobranch=1;name=googletest;destsuffix=googletest \
+"
+
+SRCREV_vsomeip = "02c199dff8aba814beebe3ca417fd991058fe90c"
+SRCREV_googletest = "f8d7d77c06936315286eb55f8de22cd23c188571"
+
+SRCREV_FORMAT = "vsomeip_googletest"
+
+S = "${WORKDIR}/git"
+
+DEPENDS = "boost"
+
+DEPENDS:append = "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', ' systemd', '', d)}"
+
+inherit cmake pkgconfig
+
+EXTRA_OECMAKE = " \
+    -DGTEST_ROOT=${WORKDIR}/googletest \
+    -DDISABLE_DLT=ON \
+    -DENABLE_SIGNAL_HANDLING=ON \
+    -DINSTALL_LIB_DIR=${baselib} \
+    -DINSTALL_CMAKE_DIR=${baselib}/cmake/vsomeip3 \
+"

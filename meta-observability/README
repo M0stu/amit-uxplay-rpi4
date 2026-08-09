@@ -1,0 +1,19 @@
+meta-observability
+==================
+
+Custom observability layer for the AMIT Bullet Embedded Linux project.
+
+Provides:
+- System resource monitoring
+- CPU/load monitoring
+- Memory monitoring
+- Disk monitoring
+- Network statistics
+- systemd service support
+- SysVinit service support
+
+Compatible with:
+- Yocto Project Kirkstone
+- Raspberry Pi 4
+
+Mostafa Yakout
